@@ -19,19 +19,19 @@ async function createConnection() {
   console.log("Mongodb is connected");
   return client;
 }
-/*
-  {
-    "firstname":"jayasudhan",
-    "secondname":"A",
-    "Email":"jsudhan53@gmail.com",
-    "password":"jsudhan"
-}
-*/
+
 
 const client = await createConnection();
 
-
-
+//to gegister enter the following details
+/*
+  {
+    "firstname":"",
+    "secondname":"",
+    "Email":"",
+    "password":""
+}
+*/
 
 app.post("/", async (req, res) => {
     try {
@@ -45,7 +45,11 @@ app.post("/", async (req, res) => {
     }
   });
   
-
+//enter email and password to login as mmentiones here
+/*{
+   "Email":"",
+    "password":""
+} */
 app.get("/login", async (req, res) =>{
     const newdata = req.body;
     try{
@@ -66,7 +70,7 @@ app.get("/login", async (req, res) =>{
 });
 
 
-
+//enter email
 app.post("/forgotpassword", async (req, res) =>{
   const newdata = req.body;
   try{
@@ -86,29 +90,29 @@ await console.log(result);
 
  await client.db("passwordreset").collection("register").updateOne( {Email: newdata.Email }, { $set: { password:result  } } );
 
-      var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: process.env.email,
-          pass: process.env.password
-        }
-      });
-      
-      var mailOptions = {
-        from: process.env.email,
-        to: `${room.Email}`,
-        subject: 'Sending Email using Node.js',
-        text: `Your password reset link: https://example.com/resetpassword 
-        and enter this :${result}` // Adjust this link as needed
-      };
-      
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      });
+ var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.email,
+    pass: process.env.password
+  }
+});
+
+var mailOptions = {
+  from: process.env.email,
+  to: `${room.Email}`,
+  subject: 'Sending Email using Node.js',
+  text: `Your password reset link: https://example.com/resetpassword 
+  and enter this :${result}` // Adjust this link as needed
+};
+
+transporter.sendMail(mailOptions, function(error, info) {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
       }
       res.send(room);
     } catch (error) {
@@ -121,7 +125,7 @@ app.post("/reset", async (req, res) => {
   try {
     const newdata = req.body;
     console.log(newdata);
-    await client.db("passwordreset").collection("register").updateOne( {password: newdata.password }, { $set: { password:newdata.Newpassword  } } );
+    await client.db("passwordreset").collection("register").findOneAndUpdate( {password: newdata.password }, { $set: { password:newdata.Newpassword  } } );
     res.send("password changed sucessfully"); 
   } catch (error) {
     console.error("Error:", error);
