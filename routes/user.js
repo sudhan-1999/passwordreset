@@ -108,6 +108,7 @@ router.post("/forgotpassword", async (req, res) =>{
 router.post("/reset", async (req, res) => {
   try {
     const newdata = req.body;
+    console.log(newdata)
 const findinguser = await finduser(newdata);
 console.log(findinguser)
 const comparing=await bcrypt.compare(newdata.password,findinguser.Password);

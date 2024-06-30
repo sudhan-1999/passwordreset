@@ -56,7 +56,7 @@ export async function generatepassword(password) {
 }
 export async function generatenewpassword(newdata) {
     const salt = await bcrypt.genSalt(10);
-    const hashedpassword = await bcrypt.hash(newdata.password, salt);
+    const hashedpassword = await bcrypt.hash(newdata.newpassword, salt);
     return hashedpassword;
   }
 
