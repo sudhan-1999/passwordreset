@@ -84,7 +84,7 @@ router.post("/forgotpassword", async (req, res) =>{
       from: process.env.email,
       to: `${Email}`,
       subject: 'Sending Email using Node.js',
-      text: `Your password reset link: https://password-reset-sudhan.netlify.app//reset 
+      text: `Your password reset link: https://password-reset-sudhan.netlify.app/reset 
       and enter this :${string}` 
     };
     
