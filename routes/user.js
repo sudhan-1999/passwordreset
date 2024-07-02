@@ -31,18 +31,18 @@ const router = express.Router()
 //login
 router.post('/login', async (req, res) => {
     const { Email, password } = req.body; 
-    console.log(Email, password,req.body)
+    //console.log(Email, password,req.body)
     try {
         const user = await loginuser(Email); 
-        console.log(user)
+        //console.log(user)
         if (!user) {
             res.status(400).send({ message: "Invalid Credentials" });
             return;
         }
         
         const comparing=await bcrypt.compare(password,user.Password);
-        console.log(password, user.Password)
-        console.log(comparing)
+        //console.log(password, user.Password)
+        //console.log(comparing)
         
         if (comparing) {
           res.send("Login successful");
@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
         }
         
     } catch (error) {
-        console.error("Error:", error);
+       // console.error("Error:", error);
         res.status(500).send("Internal Server Error");
     }
 });
@@ -67,9 +67,9 @@ router.post("/forgotpassword", async (req, res) =>{
 
     const password= await genertaesting(string);
     const tempdata = {Email,password}
-    console.log(tempdata.password)
+    //console.log(tempdata.password)
    const update= await forgotPassword(tempdata);
-   console.log(update)
+   //console.log(update)
   
      if(update){
       var transporter = nodemailer.createTransport({
@@ -98,7 +98,7 @@ router.post("/forgotpassword", async (req, res) =>{
           res.send("Enter the Code Sent to your mail!");}
  
     } catch (error) {
-      console.error("Error:", error);
+      //console.error("Error:", error);
       res.status(500).send("Internal Server Error");
     }
 });
@@ -108,15 +108,15 @@ router.post("/forgotpassword", async (req, res) =>{
 router.post("/reset", async (req, res) => {
   try {
     const newdata = req.body;
-    console.log(newdata)
+    //console.log(newdata)
 const findinguser = await finduser(newdata);
-console.log(findinguser)
+//console.log(findinguser)
 const comparing=await bcrypt.compare(newdata.password,findinguser.Password);
-console.log(comparing)
+//console.log(comparing)
 const has = await generatenewpassword(newdata)
 const Email = newdata.Email;
 const changeddata={Email,has};
-console.log(changeddata.Email,changeddata.has)
+//console.log(changeddata.Email,changeddata.has)
 if(comparing){
     await reSet(changeddata);
   res.send("Password change successful");
@@ -125,7 +125,7 @@ else{
   res.send("Something went wrong!")
 }
   } catch (error) {
-    console.error("Error:", error);
+    //console.error("Error:", error);
     res.status(500).send("Internal Server Error");
   }
 });
